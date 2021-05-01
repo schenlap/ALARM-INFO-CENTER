@@ -1,0 +1,357 @@
+﻿<Window x:Class="AlarmInfoCenter.UI.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AIC Einstellungen" Height="398" Width="700" WindowStyle="ToolWindow" Loaded="Window_Loaded" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner">
+	<Grid>
+		
+		<Grid.Resources>
+			<Style TargetType="TextBox">
+				<Setter Property="Margin" Value="2" />
+			</Style>
+			<Style TargetType="ComboBox">
+				<Setter Property="Margin" Value="2" />
+			</Style>
+			<Style TargetType="StackPanel">
+				<Setter Property="Margin" Value="0,8" />
+			</Style>
+		</Grid.Resources>
+		
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+
+		<TabControl TabStripPlacement="Left" HorizontalContentAlignment="Left">
+			<TabItem Name="GeneralTab">
+				<TabItem.Header>
+					<StackPanel Orientation="Horizontal">
+						<Image Source="Images/settings_general_32.png" Stretch="None"></Image>
+						<Label VerticalAlignment="Center">Allgemein</Label>
+					</StackPanel>
+				</TabItem.Header>
+				
+				<Grid Name="GeneralGrid">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					
+					<Label>Name der Feuerwehr:</Label>
+					<TextBox Name="FireBrigadeNameBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" />
+
+					<Label Grid.Row="1" Grid.Column="0" ToolTip="Adresse inkl. PLZ und Gemeinde des Feuerwehrhauses&#x0a;Diese Angabe dient als Startposition für die Fahrtroute.">Adresse Feuerwehrhaus:</Label>
+					<TextBox Name="FireBrigadeAddressBox" Grid.Row="1" Grid.Column="1" />
+					<Button Grid.Row="1" Grid.Column="2" Width="27" ToolTip="Adresse auf Karte anzeigen" Click="ShowFireBrigadeOnMapButton_Click" Height="23">
+						<Image Source="Images/settings_map_16.png" Stretch="None" />
+					</Button>
+
+					<Label Grid.Row="2" Grid.Column="0" ToolTip="Koordinaten des Feuerwehrhauses&#x0a;Diese Angabe dient als Startposition für die Fahrtroute am Ausdruck.">Koordinaten Feuerwehrhaus:</Label>
+					<TextBox Name="FireBrigadeCoordinatesBox" Grid.Row="2" Grid.Column="1" />
+					<Button Grid.Row="2" Grid.Column="2" Width="27" ToolTip="Koordinaten aus Adresse berechnen" Click="GeocodeFireBrigadeButton_Click" Height="23">
+						<Image Source="Images/settings_geocode_16.png" Stretch="None" />
+					</Button>
+
+					<Label Grid.Row="3" Grid.Column="0">Modus:</Label>
+					<Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+
+						<RadioButton Name="ModeStandAloneBox" HorizontalAlignment="Right" Padding="4,0,10,0" Checked="ModeBox_Checked" IsChecked="True">Stand-Alone</RadioButton>
+						<RadioButton Name="ModeClientBox" Grid.Column="1" Checked="ModeBox_Checked">Client</RadioButton>
+					</Grid>
+
+					<Label Name="NetworkServiceIpLbl" Grid.Row="4" Grid.Column="0" ToolTip="IP-Adresse des PCs auf dem der AIC-Service läuft" Margin="10,0,0,0">AIC-Service IP:</Label>
+					<TextBox Name="NetworksServiceIpBox" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" />
+					
+					<Label Name="NetworkServicePortLbl" Grid.Row="5" Grid.Column="0" ToolTip="Port zur Kommunikation mit dem AIC-Service (Standard: 55555)" Margin="10,0,0,0">AIC-Service Port:</Label>
+					<TextBox Name="ServicePortBox" Grid.Row="5" Grid.Column="1">55555</TextBox>
+					<Button Grid.Row="5" Grid.Column="2" ToolTip="Verbindung zum Service testen" Width="27" Height="23" Click="CheckServiceConnectionButton_Click">
+						<Image Source="Images/settings_check_16.png" Stretch="None" />
+					</Button>
+
+					<Label Grid.Row="6" Grid.Column="0" ToolTip="IP Adresse der WAS Endstelle (Standard: 192.168.130.100)" Margin="10,0,0,0">WAS IP:</Label>
+					<TextBox Name="WasIpBox" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2">192.168.130.100</TextBox>
+
+					<Label Grid.Row="7" Grid.Column="0" ToolTip="Port zur Kommunikation mit der WAS Endstelle (Standard: 47000)" Margin="10,0,0,0">WAS Port:</Label>
+					<TextBox Name="WasPortBox" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2">47000</TextBox>
+
+					<CheckBox Name="FullScreenModeBox" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,5,0,5">Vollbildmodus</CheckBox>
+
+					<CheckBox Name="DemoModeBox" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,5,0,5">Demo-Modus</CheckBox>
+
+				</Grid>
+			</TabItem>
+			
+			<TabItem x:Name="AlarmCenterTab">
+				<TabItem.Header>
+					<StackPanel Orientation="Horizontal">
+						<Image Width="32" Height="32" Stretch="None" Source="Images/settings_alarmcenter_32.png"></Image>
+						<Label VerticalAlignment="Center">Alarm-Center</Label>
+					</StackPanel>
+				</TabItem.Header>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					
+					<Label ToolTip="Gibt bei mehreren Einsätzen an, wie lange jeder einzelne angezeigt werden soll (Standard: 8)">Alarmanzeigedauer (Sekunden):</Label>
+					<TextBox Name="AlarmDisplayDurationBox" Grid.Row="0" Grid.Column="1">8</TextBox>
+
+					<Label Grid.Row="1" Grid.Column="0" ToolTip="Gibt bei mehreren Einsätzen an, wie lange der neu hinzugekommene Einsatz angezeigt werden soll (Standard: 30)">Anzeigedauer bei neuem Alarm (Sekunden):</Label>
+					<TextBox x:Name="NewAlarmDisplayDurationBox" Grid.Row="1" Grid.Column="1" Text="30"/>
+
+					<CheckBox Name="ShowBasicAlarmInfoBox" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,5,0,5">Basisanzeige: nur Basisdaten werden angezeigt, Bildschirmteilung horizontal</CheckBox>
+
+					<Label Grid.Row="3" Grid.Column="0" ToolTip="Sendet ein Signal zum Ausschalten des Bildschirms x Minuten nach Einsatzende.&#x0a;Beim Wert -1 wird kein Signal gesendet.&#x0a;Diese Funktion wird möglicherweise nicht von allen Bildschirmen und Grafikkarten unterstützt.&#x0a;(Standard: -1)">Bildschirm nach Einsatz ausschalten (Minuten):</Label>
+					<TextBox Name="TurnScreenOffDelayBox" Grid.Row="3" Grid.Column="1">-1</TextBox>
+
+					<CheckBox Name="PlayAlarmSoundBox" Grid.Row="4" Grid.Column="0" Margin="5,5,0,5" ToolTip="Der Alarmton muss den Dateinamen alarm.wav haben und sich im Programmverzeichnis befinden" IsChecked="True">Ton bei neuem Einsatz abspielen</CheckBox>
+					<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
+						<Button HorizontalAlignment="Right" ToolTip="Alarmton und Durchsage mit den aktuellen Einstellungen abspielen" Click="PlayAlarmSequenceButton_Click" Width="27" Height="23">
+							<Image Source="Images/settings_play_16.png" Stretch="None" />
+						</Button>
+						<Button HorizontalAlignment="Right" ToolTip="Stop" Click="StopButton_Click" Width="27" Height="23" Margin="2,0,0,0">
+							<Image Source="Images/settings_stop_16.png" Stretch="None" />
+						</Button>
+					</StackPanel>
+
+					<CheckBox x:Name="PlayAnnouncementBox" Grid.Row="5" Grid.Column="0" Margin="5,5,0,5" ToolTip="Die Sprachdurchsage besteht aus dem Einsatzgrund und dem Einsatzort" Checked="PlayAnnouncementdBox_CheckChanged" Unchecked="PlayAnnouncementdBox_CheckChanged">Sprachdurchsage aktivieren</CheckBox>
+					<TextBox Name="AnnouncementIntervalsBox" Grid.Row="5" Grid.Column="1" ToolTip="Gibt die Pausenzeit in Sekunden an bevor die Sprachdurchsage gestartet wird. Es können mehrere Werte getrennt durch einen Beistrich eingetragen werden. Jeder Wert muss zwischen 1 und 300 sein.&#x0a;Der Wert 2, 8 würde bedeuten, dass 2 Sekunden nach Beginn des Einsatzes die Durchsage gestartet wird. 8 Sekunden nach Ende der Durchsage wird sie erneut gestartet.&#x0a;(Standard: 1, 2, 60, 2, 60, 2)">1, 2, 60, 2, 60, 2</TextBox>
+
+					<Label Grid.Row="6" Grid.Column="0" ToolTip="Die URL der Webseite, die die Anfahrtsroute anzeigt&#x0a;(Standard: http://www.alarm-info-center.at/services/alarmroute.php)">URL Anfahrtsroute:</Label>
+					<TextBox Name="RouteUrlBox" Grid.Row="6" Grid.Column="1">http://www.alarm-info-center.at/services/alarmroute.php</TextBox>
+
+					<Label Grid.Row="7" Grid.Column="0" ToolTip="Der Service, der die Wasserentnahmestellen zurückgibt">Wasserkarte:</Label>
+					<Grid Grid.Row="7" Grid.Column="1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+
+						<RadioButton Name="NoWaterMapBox" VerticalAlignment="Center" IsChecked="True" Checked="WatermapBox_Checked">Keine</RadioButton>
+						<RadioButton Name="WasserkarteInfoBox" Grid.Column="1" VerticalAlignment="Center" Margin="10,0,10,0" Checked="WatermapBox_Checked">wasserkarte.info</RadioButton>
+						<RadioButton Name="CustomWaterMapBox" Grid.Column="2" VerticalAlignment="Center" Checked="WatermapBox_Checked">Extern</RadioButton>
+						<Button x:Name="TestWaterMapButton" HorizontalAlignment="Right" Grid.Column="3" ToolTip="Service Wasserkarte testen" Width="27" Height="23" Click="TestWaterMap_Click" IsEnabled="False">
+							<Image Source="Images/settings_check_16.png" Stretch="None" />
+						</Button>
+					</Grid>
+					<TextBox Name="WaterMapTokenBox" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,2,2,2" ToolTip="Der Zugriffstoken auf wasserkarte.info."></TextBox>
+					<TextBox Name="WaterMapUrlBox" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,2,2,2" ToolTip="Die URL des Services, der die Wasserentnahmestellen zurückgibt">http://www.feuerwehr-marchtrenk.at/aic/watermap.php</TextBox>
+				</Grid>
+			</TabItem>
+			
+			<TabItem x:Name="PrintTab">
+				<TabItem.Header>
+					<StackPanel Orientation="Horizontal">
+						<Image Source="Images/settings_print_32.png" Stretch="None"></Image>
+						<Label VerticalAlignment="Center">Drucken</Label>
+					</StackPanel>
+				</TabItem.Header>
+
+				<Grid>
+					<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+					<Label ToolTip="Der Name des Druckerservers, sofern kein lokaler Drucker verwendet wird (z.B. \\printserver)">Druckserver:</Label>
+					<TextBox Name="PrintServerBox" Grid.Row="0" Grid.Column="1"></TextBox>
+					<Button Grid.Row="0" Grid.Column="2" ToolTip="Verbindung zum Druckserver testen" Width="27" Height="23" Click="CheckPrintServerButton_Click">
+						<Image Source="Images/settings_check_16.png" Stretch="None" />
+					</Button>
+
+					<Label Grid.Row="1" Grid.Column="0">Druckername:</Label>
+					<TextBox Name="PrinterNameBox" Grid.Row="1" Grid.Column="1"></TextBox>
+					<Button Grid.Row="1" Grid.Column="2" ToolTip="Verbindung zum Drucker testen" Width="27" Height="23" Click="CheckPrinterButton_Click">
+						<Image Source="Images/settings_check_16.png" Stretch="None" />
+					</Button>
+
+					<Label Grid.Row="2" Grid.Column="0">Anzahl der Ausdrucke:</Label>
+					<TextBox Name="PrintCountBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">1</TextBox>
+
+					<Label Grid.Row="3" Grid.Column="0">Kartentyp Route:</Label>
+						<ComboBox Name="RouteMapTypeBox" Grid.Row="3" Grid.Column="1" Width="200" HorizontalAlignment="Left">
+					</ComboBox>
+
+					<Label Grid.Row="4" Grid.Column="0">Kartentyp Detailkarte:</Label>
+						<ComboBox Name="DetailMapTypeBox" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Width="200">
+					</ComboBox>
+
+					<Label Grid.Row="5" Grid.Column="0">Kartentyp Wasserkarte:</Label>
+						<ComboBox Name="WaterMapTypeBox" Grid.Row="5" Grid.Column="1" Width="200" HorizontalAlignment="Left">
+					</ComboBox>
+
+				</Grid>
+			</TabItem>
+			
+			<TabItem x:Name="InfoCenterTab">
+				<TabItem.Header>
+					<StackPanel Orientation="Horizontal">
+						<Image Width="32" Height="32" Stretch="None" Source="Images/settings_infocenter_32.png"/>
+						<Label VerticalAlignment="Center">Info-Center</Label>
+					</StackPanel>
+				</TabItem.Header>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<CheckBox Name="InfoCenterEnabledBox" Grid.ColumnSpan="3" Margin="5,5,0,5" ToolTip="Gibt an, ob das Info-Center aktiv ist, solange kein Einsatz vorliegt" Checked="InfoCenterEnabledBox_CheckChanged" Unchecked="InfoCenterEnabledBox_CheckChanged">Info-Center aktivieren</CheckBox>
+
+					<Label Grid.Row="1" Grid.Column="0">URL:</Label>
+					<TextBox Name="InfoCenterDataUrlBox" Grid.Row="1" Grid.Column="1" IsEnabled="False"></TextBox>
+					<Button Grid.Row="1" Grid.Column="2" ToolTip="URL testen" Width="27" Height="23" Click="TestInfoCenterUrlButton_Click">
+						<Image Source="Images/settings_check_16.png" Stretch="None" />
+					</Button>
+					
+					<Label Grid.Row="2" Grid.Column="0" ToolTip="Gibt an, wie lange jede einzelne Seite angezeigt werden soll (Standard: 8)">Anzeigedauer (Sekunden):</Label>
+					<TextBox Name="InfoPageDisplayDurationBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" IsEnabled="False">8</TextBox>
+					
+					<GroupBox x:Name="WeatherGroupBox" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Header="wetter.com openweather API" Padding="0,5,0,0" Margin="0,5,0,0" IsEnabled="False">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							
+							<Label>Projektname:</Label>
+							<TextBox x:Name="WeatherProjectNameBox" Grid.Row="0" Grid.Column="1"></TextBox>
+
+							<Label Grid.Row="1" Grid.Column="0">City Code:</Label>
+							<TextBox x:Name="WeatherCityCodeBox" Grid.Row="1" Grid.Column="1"></TextBox>
+
+							<Label Grid.Row="2" Grid.Column="0">API Key:</Label>
+							<TextBox x:Name="WeatherKeyBox" Grid.Row="2" Grid.Column="1"></TextBox>
+
+						</Grid>
+					</GroupBox>
+
+				</Grid>
+			</TabItem>
+
+			<TabItem x:Name="PublicDisplayTab">
+				<TabItem.Header>
+					<StackPanel Orientation="Horizontal">
+						<Image Width="32" Height="32" Source="Images/settings_publicdisplay_32.png" Stretch="None"></Image>
+						<Label VerticalAlignment="Center">Public Display</Label>
+					</StackPanel>
+				</TabItem.Header>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					
+					<Label>IP-Adresse:</Label>
+					<TextBox Name="PublicDisplayIpBox" Grid.Row="0" Grid.Column="1"></TextBox>
+
+					<Label Grid.Row="1" Grid.Column="0">Port:</Label>
+					<TextBox Name="PublicDisplayPortBox" Grid.Row="1" Grid.Column="1" Text="0"></TextBox>
+
+					<Label Grid.Row="2" Grid.Column="0" ToolTip="Zu dieser Uhrzeit wird ein Signal zum Einschalten des Bildschirms gesendet">Einschaltzeit:</Label>
+					<TextBox Name="PublicDisplayTurnOnTimeBox" Grid.Row="2" Grid.Column="1">08:00</TextBox>
+
+					<Label Grid.Row="3" Grid.Column="0" ToolTip="Zu dieser Uhrzeit wird ein Signal zum Abschalten des Bildschirms gesendet">Abschaltzeit:</Label>
+					<TextBox Name="PublicDisplayTurnOffTimeBox" Grid.Row="3" Grid.Column="1">22:00</TextBox>
+
+
+				</Grid>
+			</TabItem>
+		</TabControl>
+
+		<Grid Grid.Row="1" Margin="0,5">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Button Grid.Column="0" Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkButton_Click">OK</Button>
+			<Button Grid.Column="1" Width="100" HorizontalAlignment="Center" Margin="10,0" Click="SaveButton_Click">Speichern</Button>
+			<Button Grid.Column="2" Width="100" HorizontalAlignment="Left" IsCancel="True" Click="CancelButton_Click">Abbrechen</Button>
+		</Grid>
+		
+		
+	</Grid>
+</Window>

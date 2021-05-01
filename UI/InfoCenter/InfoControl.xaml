@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="AlarmInfoCenter.UI.InfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Background="Black" FontFamily="Calibri">
+
+	<UserControl.Resources>
+		<Style TargetType="{x:Type Label}">
+			<Setter Property="Control.Foreground" Value="White"/>
+		</Style>
+		<!-- This setting is necessary for the TextBlocks that are added dynamically via code -->
+		<Style TargetType="{x:Type TextBlock}">
+			<Setter Property="Control.Foreground" Value="White"/>
+		</Style>
+	</UserControl.Resources>	
+
+	<Grid Margin="10">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="10*" />
+			<RowDefinition Height="80*" />
+			<RowDefinition Height="10*" />
+		</Grid.RowDefinitions>
+
+		<Border BorderThickness="0,0,0,2" BorderBrush="#FFE8E8E8" Grid.ColumnSpan="2">
+			<Viewbox>
+				<Label Name="TitleLbl" Content="Info-Center" FontStyle="Italic" FontWeight="Bold" />
+			</Viewbox>
+		</Border>
+
+		<Image Name="ImageCtrl" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0, 10, 0, 0" />
+
+		<Viewbox StretchDirection="DownOnly" Grid.Row="1" Grid.ColumnSpan="2" Margin="20">
+			<StackPanel Name="TextPnl">
+				<TextBlock FontSize="800">Daten werden geladen...</TextBlock>
+			</StackPanel>
+		</Viewbox>
+
+		<Viewbox Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left">
+			<Label Name="FooterLeftLbl" Content="Footer Left" Visibility="Collapsed" />
+		</Viewbox>
+
+		<StackPanel Grid.Row="2" Grid.Column="1" Name="FooterRightPnl" HorizontalAlignment="Right" Orientation="Horizontal">
+			<Viewbox>
+				<Label Name="FooterRightLbl" Content="Footer Right" Visibility="Collapsed" />
+			</Viewbox>
+			<Image Name="WeatherLogoImg" Source="/AlarmInfoCenter;component/Images/logo_wetter.png" Stretch="None" Visibility="Collapsed" />
+		</StackPanel>
+
+	</Grid>
+</UserControl>
