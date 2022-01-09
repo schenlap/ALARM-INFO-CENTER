@@ -82,6 +82,7 @@ namespace AlarmInfoCenter.UI
 				"[F5] ... Alarmdaten anfordern, Info-Center Daten neu laden" + nl +
 				"[F7] ... Sprachdurchsage starten" + nl +
 				"[F8] ... Sprachdurchsage stoppen" + nl +
+				"[F12] .. Settings anzeigen " + nl +
 				"[→] ... nächsten Einsatz / nächste Infoseite anzeigen" + nl +
 				"[←] ... vorherigen Einsatz / vorherige Infoseite anzeigen" + nl +
 				"[STRG + P] ... Alarm drucken";
